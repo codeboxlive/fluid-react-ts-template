@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { IFluidContainer } from "@fluidframework/fluid-static";
 import { SharedMap } from "@fluidframework/map";
 // Not intended for use outside of a Codebox Live sandbox
-import { CodeboxLiveClient } from "@codeboxlive/extensions-core";
+import { CodeboxLive } from "@codeboxlive/extensions-core";
 // In production, import AzureClient from "@fluidframework/azure-client"
 import { CodeboxLiveFluidClient } from "@codeboxlive/extensions-fluid";
 import Header from "./Header";
@@ -21,7 +21,7 @@ export default function App(): JSX.Element {
       // Initialize the CodeboxLiveClient so that this sandbox app can communicate
       // with the Codebox Live application using window post messages. This is used
       // to authenticate a Fluid container when testing this app in a sandbox.
-      await CodeboxLiveClient.initialize();
+      await CodeboxLive.initialize();
 
       // Define container schema
       const schema = {
@@ -34,8 +34,7 @@ export default function App(): JSX.Element {
         // Setup any initial state here
       };
       const client = new CodeboxLiveFluidClient();
-      const results = await client
-        .joinContainer(schema, onFirstInitialize);
+      const results = await client.joinContainer(schema, onFirstInitialize);
 
       counterMapRef.current = results?.container.initialObjects
         .counterMap as SharedMap;
@@ -46,9 +45,8 @@ export default function App(): JSX.Element {
       setStarted(true);
       // Set initial value
       setCounterValue(counterMapRef.current!.get("count") ?? 0);
-    };
-    start()
-      .catch((error: any) => console.error(error));
+    }
+    start().catch((error: any) => console.error(error));
   });
   return (
     <div>
