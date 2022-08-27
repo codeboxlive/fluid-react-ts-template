@@ -44,6 +44,7 @@ export default function App(): JSX.Element {
         setCounterValue(counterMapRef.current!.get("count") ?? 0);
       });
       setStarted(true);
+      // Set initial value
       setCounterValue(counterMapRef.current!.get("count") ?? 0);
     };
     start()
