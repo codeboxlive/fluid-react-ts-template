@@ -4,7 +4,8 @@ import { SharedMap } from "@fluidframework/map";
 // Not intended for use outside of a Codebox Live sandbox
 import { CodeboxLive } from "@codeboxlive/extensions-core";
 // In production, import AzureClient from "@fluidframework/azure-client"
-import { CodeboxLiveFluidClient } from "@codeboxlive/extensions-fluid";
+import { CodeboxLiveHost } from "@codeboxlive/extensions-fluid";
+import { LiveShareClient } from "@microsoft/live-share";
 import Header from "./Header";
 
 export default function App(): JSX.Element {
@@ -33,7 +34,8 @@ export default function App(): JSX.Element {
       const onFirstInitialize = (container: IFluidContainer) => {
         // Setup any initial state here
       };
-      const client = new CodeboxLiveFluidClient();
+      const host = new CodeboxLiveHost();
+      const client = new LiveShareClient(host);
       const results = await client.joinContainer(schema, onFirstInitialize);
 
       counterMapRef.current = results?.container.initialObjects
